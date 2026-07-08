@@ -1,0 +1,25 @@
+{
+  "name": "monoliths-backend",
+  "version": "1.0.0",
+  "description": "Express REST API for The Monoliths architecture studio",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.4.0",
+    "express-validator": "^7.1.0",
+    "firebase": "^12.15.0",
+    "firebase-admin": "^14.1.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.0"
+  }
+}
