@@ -2,15 +2,8 @@ import 'dotenv/config.js';
 import connectDB from '../config/db.js';
 import app from '../src/components/app.js';
 
-// Initialize Firebase on cold start
-let isInitialized = false;
+// Initialize Firebase on cold start (Vercel supports top-level await in Node.js)
+await connectDB();
 
-const handler = async (req, res) => {
-  if (!isInitialized) {
-    await connectDB();
-    isInitialized = true;
-  }
-  return app(req, res);
-};
+export default app;
 
-export default handler;
