@@ -25,6 +25,7 @@ This error means **Firestore database is not enabled** in your Firebase project.
 
 4. **Verify Service Account Permissions**
    - Left sidebar → **Project Settings** (gear icon) → **Service Accounts**
+   - Click **Generate new private key** and save the downloaded JSON as `serviceaccountkey.json` in the project root
    - Verify `firebase-adminsdk-fbsvc@backend-2-d6a2d.iam.gserviceaccount.com` exists
    - Make sure it has **Editor** role in GCP Console
 
