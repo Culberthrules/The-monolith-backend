@@ -16,7 +16,26 @@ app.use(helmet());
 // ── CORS ──────────────────────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, postman, or same-origin)
+      if (!origin) return callback(null, true);
+      
+      const cleanOrigin = origin.replace(/\/$/, '');
+      const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : '';
+      
+      const isAllowed =
+        cleanOrigin === 'http://localhost:5173' ||
+        cleanOrigin === 'http://127.0.0.1:5173' ||
+        (clientUrl && cleanOrigin === clientUrl) ||
+        cleanOrigin === 'https://the-monolith-henna.vercel.app' ||
+        cleanOrigin.endsWith('.vercel.app'); // Allow Vercel preview domains
+        
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true, // Required for cookies to be sent cross-origin
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

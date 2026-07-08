@@ -1,6 +1,7 @@
 import { sendSuccess, sendError } from '../utilis/response.js';
 import { signToken } from '../utilis/jwt.js';
 import { db, auth } from '../config/db.js';
+import { cookieOptions, clearCookieOptions } from '../utilis/cookieOptions.js';
 
 /**
  * POST /api/auth/signup
@@ -35,6 +36,9 @@ export const signup = async (req, res) => {
       email,
       role: 'user',
     });
+
+    // Set auth cookie
+    res.cookie('token', token, cookieOptions);
 
     return sendSuccess(res, {
       message: 'User registered successfully',
@@ -96,6 +100,9 @@ export const login = async (req, res) => {
         role: userData.role,
       });
 
+      // Set auth cookie
+      res.cookie('token', token, cookieOptions);
+
       return sendSuccess(res, {
         message: 'Login successful',
         user: {
@@ -124,8 +131,8 @@ export const login = async (req, res) => {
  */
 export const logout = async (req, res) => {
   try {
-    // Token invalidation can be handled client-side by removing the token
-    // Or implement token blacklist on server if needed
+    // Clear the auth cookie on logout
+    res.clearCookie('token', clearCookieOptions);
 
     return sendSuccess(res, {
       message: 'Logout successful',
